@@ -43,17 +43,21 @@ def check_signal():
         latest = data.iloc[-1]
         previous = data.iloc[-2]
 
-        if pd.isna(latest['Close']) or pd.isna(latest['MA20']):
+        latest_close = latest['Close']
+        latest_ma20 = latest['MA20']
+        previous_close = previous['Close']
+        previous_ma20 = previous['MA20']
+
+        if pd.isna(latest_close) or pd.isna(latest_ma20):
             st.error("⚠️ Incomplete data for analysis.")
             return
 
-        st.write(f"💰 Latest Price: ₹{latest['Close']:.2f}")
-        st.write(f"📊 20-Day MA: ₹{latest['MA20']:.2f}")
+        st.write(f"💰 Latest Price: ₹{latest_close:.2f}")
+        st.write(f"📊 20-Day MA: ₹{latest_ma20:.2f}")
 
-        # Simple moving average crossover strategy
-        if previous['Close'] < previous['MA20'] and latest['Close'] > latest['MA20']:
+        if (previous_close < previous_ma20) and (latest_close > latest_ma20):
             st.success("✅ BUY SIGNAL")
-        elif previous['Close'] > previous['MA20'] and latest['Close'] < latest['MA20']:
+        elif (previous_close > previous_ma20) and (latest_close < latest_ma20):
             st.error("🚨 SELL SIGNAL")
         else:
             st.info("⏳ HOLD")
@@ -62,4 +66,3 @@ def check_signal():
 
 get_eternal_news()
 check_signal()
-
