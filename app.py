@@ -1,4 +1,3 @@
-
 import streamlit as st
 import yfinance as yf
 import pandas as pd
@@ -6,14 +5,15 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-st.set_page_config(page_title="Eternal Stock Tracker", layout="wide")
+st.set_page_config(page_title="Eternal Ltd Stock Tracker", layout="wide")
 
 st.title("📈 Eternal Ltd Stock Tracker")
 st.write(f"Date: {datetime.today().strftime('%Y-%m-%d')}")
 
 def get_eternal_news():
     st.subheader("📰 Latest News")
-    url = "https://www.google.com/search?q=Eternal+Ltd+stock+India&tbm=nws"
+    query = "Eternal Ltd stock India"
+    url = f"https://www.google.com/search?q={query}&tbm=nws"
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -24,7 +24,7 @@ def get_eternal_news():
 
 def check_signal():
     st.subheader("💹 Buy/Sell Signal")
-    stock_symbol = "ETERNAL.BO"
+    stock_symbol = "ETERNAL.NS"  # Updated ticker symbol
     data = yf.download(stock_symbol, period='2mo', interval='1d')
     if data.empty:
         st.error("⚠️ No stock data found. Check symbol.")
@@ -46,3 +46,4 @@ def check_signal():
 
 get_eternal_news()
 check_signal()
+
